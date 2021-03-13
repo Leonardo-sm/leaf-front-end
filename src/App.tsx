@@ -1,8 +1,14 @@
+import 'normalize.css';
+
+import GlobalStyled from './styles/GlobalStyles';
+import Routes from './routes';
+
 function App() {
   return (
-    <div>
-      <h1>Leaf</h1>
-    </div>
+    <>
+      <GlobalStyled />
+      <Routes />
+    </>
   );
 }
 
