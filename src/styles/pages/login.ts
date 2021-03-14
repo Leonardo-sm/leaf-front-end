@@ -61,6 +61,7 @@ export const LoginInput = styled.input`
   border: none;
   border-radius: 8px;
 
+  font-family: 'Roboto';
   font-size: 20px;
 
   outline: none;
