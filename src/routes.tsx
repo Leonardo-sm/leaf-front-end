@@ -1,13 +1,13 @@
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-import Demo from './pages/Demo';
+import Login from './pages/Login';
 
 function Routes() {
   return (
     <HashRouter>
       <Switch>
         <Route path="/" exact render={() => <Redirect to="/login" />} />
-        <Route path="/login" exact component={Demo} />
+        <Route path="/login" exact component={Login} />
         {/* <Route path="/chat" exact component={} /> */}
       </Switch>
     </HashRouter>
