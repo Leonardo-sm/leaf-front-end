@@ -16,16 +16,15 @@ export const SuccessContainer = styled.div`
 
   line-height: 30px;
 
+  font-family: 'Inter';
+
   h1 {
     margin: 0;
-    font-family: 'Inter';
-    font-weight: 500;
     font-size: 96px;
   }
 
   h3 {
     margin: 8.75rem 0;
-    font-weight: 500;
     font-size: 64px;
 
     span {
