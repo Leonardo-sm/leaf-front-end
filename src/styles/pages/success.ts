@@ -6,7 +6,11 @@ export const SuccessContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-  background-color: ${fromTheme('secondary')};
+  background: radial-gradient(
+    256.07% 131.01% at 50% 18.85%,
+    ${fromTheme('secondary')} 0%,
+    ${fromTheme('blue')} 100%
+  );
 
   display: flex;
   width: 100vw;
@@ -20,11 +24,14 @@ export const SuccessContainer = styled.div`
 
   h1 {
     margin: 0;
+
     font-size: 96px;
   }
 
   h3 {
     margin: 8.75rem 0;
+
+    font-weight: 500;
     font-size: 64px;
 
     span {
@@ -32,5 +39,3 @@ export const SuccessContainer = styled.div`
     }
   }
 `;
-
-export const SuccessBackButton = styled.button``;
