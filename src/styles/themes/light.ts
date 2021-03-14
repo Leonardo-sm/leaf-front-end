@@ -3,6 +3,7 @@ const lightTheme = {
 
   colors: {
     primary: '#FF005C',
+    primaryHover: '#C5074B',
     secondary: '#9D69D0',
     background: '#F8ECF2',
     surface: '#FFFBFD',

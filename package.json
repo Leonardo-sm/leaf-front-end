@@ -37,7 +37,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "socket.io-client": "^4.0.0",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "styled-tools": "^1.7.2"
   },
   "devDependencies": {
     "@types/node": "^12.0.0",
