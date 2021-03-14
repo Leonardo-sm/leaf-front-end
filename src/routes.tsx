@@ -1,6 +1,8 @@
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
+import { Home } from './pages/Home';
 import Login from './pages/Login';
+import { Success } from './pages/Success';
 
 function Routes() {
   return (
@@ -8,7 +10,8 @@ function Routes() {
       <Switch>
         <Route path="/" exact render={() => <Redirect to="/login" />} />
         <Route path="/login" exact component={Login} />
-        {/* <Route path="/chat" exact component={} /> */}
+        <Route path="/success" component={Success} />
+        <Route path="/home" component={Home} />
       </Switch>
     </HashRouter>
   );
