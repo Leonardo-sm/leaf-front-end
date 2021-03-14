@@ -1,4 +1,5 @@
-import { SuccessBackButton, SuccessContainer } from '../styles/pages/success';
+import { Button } from '../components';
+import { SuccessContainer } from '../styles/pages/success';
 
 export function Success() {
   return (
@@ -9,9 +10,7 @@ export function Success() {
         Cadastro realizado com <span>sucesso</span>
       </h3>
 
-      <SuccessBackButton type="button">
-        Voltar à página de login
-      </SuccessBackButton>
+      <Button idType="outline">Voltar à página de login</Button>
     </SuccessContainer>
   );
 }
