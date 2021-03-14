@@ -13,6 +13,9 @@ export const StyledButton = styled.button`
 
   cursor: pointer;
 
+  font-family: 'Inter';
+  font-weight: 500;
+
   color: ${fromTheme('surface')};
   outline: none;
 
