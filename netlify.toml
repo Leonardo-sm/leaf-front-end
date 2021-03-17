@@ -1,5 +1,4 @@
 [build]
-base: "/opt/build/repo"
+base: "."
 command: "yarn run build"
-commandOrigin: "config"
-publish: "/opt/build/repo/build"
+publish: "./build/"
