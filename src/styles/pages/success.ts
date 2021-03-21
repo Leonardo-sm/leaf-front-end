@@ -6,7 +6,11 @@ export const SuccessContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-  background-color: ${fromTheme('secondary')};
+  background: radial-gradient(
+    256.07% 131.01% at 50% 18.85%,
+    ${fromTheme('secondary')} 0%,
+    ${fromTheme('blue')} 100%
+  );
 
   display: flex;
   width: 100vw;
@@ -16,15 +20,17 @@ export const SuccessContainer = styled.div`
 
   line-height: 30px;
 
+  font-family: 'Inter';
+
   h1 {
     margin: 0;
-    font-family: 'Inter';
-    font-weight: 500;
+
     font-size: 96px;
   }
 
   h3 {
     margin: 8.75rem 0;
+
     font-weight: 500;
     font-size: 64px;
 
@@ -33,5 +39,3 @@ export const SuccessContainer = styled.div`
     }
   }
 `;
-
-export const SuccessBackButton = styled.button``;
