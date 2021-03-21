@@ -1,11 +1,16 @@
+import { ifProp, prop, switchProp } from 'styled-tools';
 import styled, { css } from 'styled-components';
 
 import { fromTheme } from '../../utils';
-import { switchProp } from 'styled-tools';
 
-export const StyledButton = styled.button`
-  padding: 10px 0px;
-  width: 9rem;
+interface ButtonProps {
+  w?: string;
+  p?: string;
+}
+
+export const StyledButton = styled.button<ButtonProps>`
+  padding: ${ifProp('p', prop('p'), '10px 0px')};
+  width: ${prop('w')};
   border: none;
   border-radius: 6px;
 
