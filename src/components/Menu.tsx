@@ -1,30 +1,71 @@
 import { useState } from 'react';
+import {
+  ButtonsContainer,
+  MenuContainer,
+  SelectionLine,
+} from '../styles/components/menu';
 import { ContactsContent } from './ContactsContent';
 import { MessagesContent } from './MessagesContent';
 
 export function Menu() {
-  const [isMessage, setIsMessage] = useState(false);
+  const [menuButton, setMenuButton] = useState('contacts');
+  const [lineStart, setLineStart] = useState(0);
 
   function changeToContacts() {
-    setIsMessage(false);
+    setMenuButton('contacts');
   }
 
   function changeToMessages() {
-    setIsMessage(true);
+    setMenuButton('messages');
+  }
+
+  function lineAnimation(destination: number) {
+    const line = document.getElementById('myline');
+
+    if (line !== null && lineStart !== destination) {
+      line.animate(
+        [
+          { transform: `translateX(${lineStart}px)` },
+          { transform: `translateX(${destination}px)` },
+        ],
+        {
+          duration: 250,
+          easing: 'ease-out',
+          fill: 'both',
+        }
+      );
+
+      setLineStart(destination);
+    }
   }
 
   return (
-    <div>
-      <div>
-        <button type="button" onClick={changeToContacts}>
+    <MenuContainer>
+      <ButtonsContainer>
+        <button
+          type="button"
+          onClick={() => {
+            lineAnimation(0);
+            changeToContacts();
+          }}
+        >
           Contatos
         </button>
-        <button type="button" onClick={changeToMessages}>
+
+        <button
+          type="button"
+          onClick={() => {
+            lineAnimation(179);
+            changeToMessages();
+          }}
+        >
           Mensagens
         </button>
-      </div>
+      </ButtonsContainer>
+      <SelectionLine id="myline" />
 
-      {isMessage ? <MessagesContent /> : <ContactsContent />}
-    </div>
+      {menuButton === 'contacts' && <ContactsContent />}
+      {menuButton === 'messages' && <MessagesContent />}
+    </MenuContainer>
   );
 }
