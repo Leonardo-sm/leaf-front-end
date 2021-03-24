@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   ButtonsContainer,
+  MenuButton,
   MenuContainer,
   SelectionLine,
 } from '../styles/components/menu';
@@ -42,25 +43,28 @@ export function Menu() {
   return (
     <MenuContainer>
       <ButtonsContainer>
-        <button
+        <MenuButton
           type="button"
+          active={menuButton === 'contacts'}
           onClick={() => {
             lineAnimation(0);
             changeToContacts();
           }}
         >
           Contatos
-        </button>
+        </MenuButton>
 
-        <button
+        <MenuButton
           type="button"
+          active={menuButton === 'messages'}
           onClick={() => {
+            console.log();
             lineAnimation(179);
             changeToMessages();
           }}
         >
           Mensagens
-        </button>
+        </MenuButton>
       </ButtonsContainer>
       <SelectionLine id="myline" />
 

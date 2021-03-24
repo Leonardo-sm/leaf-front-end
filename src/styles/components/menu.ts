@@ -19,30 +19,31 @@ export const ButtonsContainer = styled.div`
   display: flex;
 
   margin-top: 74px;
+`;
 
-  button {
-    transition: 0.2s;
-    border: none;
+export const MenuButton = styled.button<{ active: boolean }>`
+  transition: 0.2s;
+  border: none;
 
-    padding: 5px 10px;
+  padding: 5px 10px;
 
-    background-color: transparent;
+  background-color: transparent;
 
-    color: ${fromTheme('text')};
+  color: ${(props) =>
+    props.active ? fromTheme('primary') : fromTheme('text')};
 
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    &:first-child {
-      margin-right: 3.75rem;
-    }
+  &:first-child {
+    margin-right: 3.75rem;
+  }
 
-    &:hover {
-      color: ${fromTheme('primary')};
-    }
+  &:hover {
+    color: ${fromTheme('primary')};
   }
 `;
 
