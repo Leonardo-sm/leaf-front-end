@@ -7,6 +7,7 @@ const lightTheme = {
     secondary: '#9D69D0',
     background: '#F8ECF2',
     surface: '#FFFBFD',
+    menu: '#F8F4F6',
     green: '#47EE58',
     selected: '#F5F0F9',
     text: '#4E4C4C',
