@@ -48,11 +48,12 @@ export const MenuButton = styled.button<{ active: boolean }>`
 `;
 
 export const SelectionLine = styled.div`
+  position: relative;
+
   height: 5px;
   width: 130px;
+  left: 80px;
   border-radius: 10px;
-
-  margin-left: 25px;
 
   margin-bottom: 20px;
 

@@ -59,7 +59,7 @@ export function Menu() {
           active={menuButton === 'messages'}
           onClick={() => {
             console.log();
-            lineAnimation(179);
+            lineAnimation(182);
             changeToMessages();
           }}
         >
