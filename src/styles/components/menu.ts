@@ -24,6 +24,7 @@ export const ButtonsContainer = styled.div`
 export const MenuButton = styled.button<{ active: boolean }>`
   transition: 0.2s;
   border: none;
+  outline: none;
 
   padding: 5px 10px;
 
