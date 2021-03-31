@@ -3,7 +3,6 @@ import { fromTheme } from '../../utils';
 
 export const SidebarWrapper = styled.div`
   display: flex;
-  flex: 1;
 `;
 
 export const SidebarContainer = styled.div`
