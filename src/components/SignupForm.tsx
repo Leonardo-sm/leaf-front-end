@@ -12,25 +12,25 @@ import { toSHA512 } from '../utils';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-interface SignupFormProps {
-  setIsLogin: (state: boolean) => void;
-}
-
 interface FormInputsProps {
-  idOrg: string;
+  orgId: string;
   name: string;
   username: string;
   password: string;
 }
 
+interface SignupFormProps {
+  setIsLogin: (state: boolean) => void;
+  createUser: (data: FormInputsProps) => void;
+}
 const schema = yup.object().shape({
-  idOrg: yup.string().required(),
+  orgId: yup.string().required(),
   name: yup.string().required(),
   username: yup.string().max(100).required(),
   password: yup.string().max(100).required(),
 });
 
-function SignupForm({ setIsLogin }: SignupFormProps) {
+function SignupForm({ setIsLogin, createUser }: SignupFormProps) {
   const { register, handleSubmit, errors, watch } = useForm<FormInputsProps>({
     resolver: yupResolver(schema),
   });
@@ -44,8 +44,9 @@ function SignupForm({ setIsLogin }: SignupFormProps) {
   }
 
   const onSubmit = (data: FormInputsProps) => {
-    return console.log({
+    createUser({
       ...data,
+      username: data.username.toLowerCase(),
       password: toSHA512(data.password),
     });
   };
@@ -54,7 +55,7 @@ function SignupForm({ setIsLogin }: SignupFormProps) {
     <LoginFormWrapper onSubmit={handleSubmit(onSubmit)}>
       <LoginInputWrapper>
         <LoginInput
-          name="idOrg"
+          name="orgId"
           placeholder="ID Organização"
           type="text"
           ref={register}
