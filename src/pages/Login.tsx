@@ -1,56 +1,56 @@
+import { AxiosError, AxiosResponse } from 'axios';
 import {
-  LoginButtonWrapper,
   LoginContainer,
-  LoginFormWrapper,
   LoginImage,
-  LoginInput,
-  LoginInputWrapper,
   LoginItemsWrapper,
   LoginRightSection,
 } from '../styles/pages/login';
 
-import { Button } from '../components';
+import LoginForm from '../components/LoginForm';
+import SignupForm from '../components/SignupForm';
+import { api } from '../services/api';
+import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
+
+interface FormInputsProps {
+  orgId: string;
+  name: string;
+  username: string;
+  password: string;
+}
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
-  const [isSignin, setIsSignin] = useState(false);
+  const history = useHistory();
 
-  function signinHandle() {
-    setIsLogin(false);
-    setIsSignin(true);
-  }
-
-  function goBackHandle() {
-    setIsLogin(true);
-    setIsSignin(false);
+  async function createUser(data: FormInputsProps) {
+    await api
+      .post('/users', data)
+      .then((response: AxiosResponse) => {
+        history.push('/success');
+      })
+      .catch((reason: AxiosError) => {
+        console.log('error');
+      });
   }
 
   return (
     <LoginContainer>
       <LoginItemsWrapper>
-        {isLogin && <LoginImage src="images/LeafLogo.svg" alt="" />}
+        {isLogin && <LoginImage src="images/LeafLogo.svg" alt="Logo" />}
         <LoginRightSection>
           <img src="images/Leaf.svg" alt="" />
-          <LoginFormWrapper>
-            <LoginInputWrapper>
-              {isSignin && (
-                <>
-                  <LoginInput placeholder="ID Organização" type="text" />
-                  <LoginInput placeholder="Nome Completo" type="text" />
-                </>
-              )}
-              <LoginInput placeholder="Username" type="text" />
-              <LoginInput placeholder="Password" type="text" />
-            </LoginInputWrapper>
-            <LoginButtonWrapper>
-              {isLogin && <Button>Logar</Button>}
-              {isSignin && <Button onClick={goBackHandle}>Voltar</Button>}
-              <Button idType="outline" onClick={signinHandle}>
-                Cadastrar
-              </Button>
-            </LoginButtonWrapper>
-          </LoginFormWrapper>
+          {isLogin ? (
+            <LoginForm
+              isLogin={isLogin}
+              setIsLogin={(state: boolean) => setIsLogin(state)}
+            />
+          ) : (
+            <SignupForm
+              setIsLogin={(state: boolean) => setIsLogin(state)}
+              createUser={(data) => createUser(data)}
+            />
+          )}
         </LoginRightSection>
       </LoginItemsWrapper>
     </LoginContainer>

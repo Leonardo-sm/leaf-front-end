@@ -13,7 +13,11 @@ export function Success() {
         Cadastro realizado com <span>sucesso</span>
       </h3>
 
-      <Button idType="outline" onClick={() => history.push('/login')}>
+      <Button
+        p="10px 20px"
+        idType="outline"
+        onClick={() => history.push('/login')}
+      >
         Voltar à página de login
       </Button>
     </SuccessContainer>
