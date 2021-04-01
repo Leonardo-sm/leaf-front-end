@@ -1,30 +1,42 @@
-import { ChatContainer } from '../styles/components/chat';
+import { useState } from 'react';
+import TextareaAutosize from 'react-textarea-autosize';
+import {
+  ChatContainer,
+  LeftMessages,
+  MessagesContainer,
+  RightMessages,
+  TextareaBox,
+} from '../styles/components/chat';
 
 export function Chat() {
+  const [isSending, setIsSending] = useState(false);
+
   return (
     <ChatContainer>
-      <div>
-        <p>Como estão as coisas?</p>
-      </div>
+      <MessagesContainer>
+        <LeftMessages>
+          <p>Como estão as coisas?</p>
+        </LeftMessages>
 
-      <div>
-        <p>Está tudo certo por aqui.</p>
-      </div>
+        <RightMessages>
+          <p>Está tudo certo por aqui.</p>
+        </RightMessages>
 
-      <div>
-        <p>Safe</p>
-      </div>
+        <LeftMessages>
+          <p>Safe</p>
+        </LeftMessages>
 
-      <div>
-        <p>
-          Gostaria de dizer que seu trabalho é deverás aperfeiçoado e tenho
-          muito orgulho de ter um companheiro de equipe desses em minha área
-          florestal, portanto, venho por meio desta agradeçer formalmente sua
-          participação durante nossa jornada de trabalho.
-        </p>
-      </div>
+        <RightMessages>
+          <p>
+            Gostaria de dizer que seu trabalho é deverás aperfeiçoado e tenho
+            muito orgulho de ter um companheiro de equipe desses em minha área
+            florestal, portanto, venho por meio desta agradeçer formalmente sua
+            participação durante nossa jornada de trabalho.
+          </p>
+        </RightMessages>
+      </MessagesContainer>
 
-      <input type="text" name="" id="" />
+      <TextareaBox placeholder="Digite Aqui..." maxRows={6} />
     </ChatContainer>
   );
 }
