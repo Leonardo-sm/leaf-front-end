@@ -6,6 +6,7 @@ import {
   LoginRightSection,
 } from '../styles/pages/login';
 
+import Cookies from 'js-cookie';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
 import { api } from '../services/api';
@@ -34,6 +35,36 @@ function Login() {
       });
   }
 
+  async function login(data: Pick<FormInputsProps, 'username' | 'password'>) {
+    await api
+      .post('/authenticate', data)
+      .then((response: AxiosResponse) => {
+        console.log('sucesso');
+        console.log(response);
+        Cookies.set(
+          'uniqueSessionId',
+          's%3A77e8cdcf-98af-487d-b5f2-1e6470d1fcd3.VKgkRjMpqCKOZkYaUnq5SAvVeNWHaPIUB3h49qs3nWk',
+          {
+            expires: 10,
+          }
+        );
+      })
+      .catch((reason: AxiosError) => {
+        console.log('error');
+      });
+
+    setTimeout(async () => {
+      await api
+        .get('/login')
+        .then((response: AxiosResponse) => {
+          console.log(response);
+        })
+        .catch((reason: AxiosError) => {
+          console.log('error');
+        });
+    }, 3000);
+  }
+
   return (
     <LoginContainer>
       <LoginItemsWrapper>
@@ -44,6 +75,7 @@ function Login() {
             <LoginForm
               isLogin={isLogin}
               setIsLogin={(state: boolean) => setIsLogin(state)}
+              login={(data) => login(data)}
             />
           ) : (
             <SignupForm
