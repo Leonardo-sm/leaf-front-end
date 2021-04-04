@@ -8,19 +8,15 @@ import {
 } from '../styles/components/form';
 
 import { Button } from '.';
+import { FormInputsProps } from '../types/login.types';
 import { toSHA512 } from '../utils';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-interface FormInputsProps {
-  username: string;
-  password: string;
-}
-
 interface LoginFormProps {
   isLogin: boolean;
   setIsLogin: (state: boolean) => void;
-  login: (data: FormInputsProps) => void;
+  login: (data: FormInputsProps) => any;
 }
 
 const schema = yup.object().shape({

@@ -5,24 +5,24 @@ import {
   LoginItemsWrapper,
   LoginRightSection,
 } from '../styles/pages/login';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Cookies from 'js-cookie';
+import { FormInputsProps } from '../types/login.types';
 import LoginForm from '../components/LoginForm';
+import { RootState } from '../stores/store';
 import SignupForm from '../components/SignupForm';
 import { api } from '../services/api';
+import { asyncLogin } from '../stores/sessionSlice';
 import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
-
-interface FormInputsProps {
-  orgId: string;
-  name: string;
-  username: string;
-  password: string;
-}
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const session = useSelector((state: RootState) => state.session);
 
   async function createUser(data: FormInputsProps) {
     await api
@@ -35,34 +35,8 @@ function Login() {
       });
   }
 
-  async function login(data: Pick<FormInputsProps, 'username' | 'password'>) {
-    await api
-      .post('/authenticate', data)
-      .then((response: AxiosResponse) => {
-        console.log('sucesso');
-        console.log(response);
-        Cookies.set(
-          'uniqueSessionId',
-          's%3A77e8cdcf-98af-487d-b5f2-1e6470d1fcd3.VKgkRjMpqCKOZkYaUnq5SAvVeNWHaPIUB3h49qs3nWk',
-          {
-            expires: 10,
-          }
-        );
-      })
-      .catch((reason: AxiosError) => {
-        console.log('error');
-      });
-
-    setTimeout(async () => {
-      await api
-        .get('/login')
-        .then((response: AxiosResponse) => {
-          console.log(response);
-        })
-        .catch((reason: AxiosError) => {
-          console.log('error');
-        });
-    }, 3000);
+  function login(data: Pick<FormInputsProps, 'username' | 'password'>) {
+    dispatch(asyncLogin(data));
   }
 
   return (
@@ -83,6 +57,13 @@ function Login() {
               createUser={(data) => createUser(data)}
             />
           )}
+          <button
+            onClick={() => {
+              console.log(session.id);
+            }}
+          >
+            cookie
+          </button>
         </LoginRightSection>
       </LoginItemsWrapper>
     </LoginContainer>
