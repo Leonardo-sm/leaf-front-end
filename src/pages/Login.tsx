@@ -5,23 +5,24 @@ import {
   LoginItemsWrapper,
   LoginRightSection,
 } from '../styles/pages/login';
+import { useDispatch, useSelector } from 'react-redux';
 
+import Cookies from 'js-cookie';
+import { FormInputsProps } from '../types/login.types';
 import LoginForm from '../components/LoginForm';
+import { RootState } from '../stores/store';
 import SignupForm from '../components/SignupForm';
 import { api } from '../services/api';
+import { asyncLogin } from '../stores/sessionSlice';
 import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
-
-interface FormInputsProps {
-  orgId: string;
-  name: string;
-  username: string;
-  password: string;
-}
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const session = useSelector((state: RootState) => state.session);
 
   async function createUser(data: FormInputsProps) {
     await api
@@ -34,6 +35,10 @@ function Login() {
       });
   }
 
+  function login(data: Pick<FormInputsProps, 'username' | 'password'>) {
+    dispatch(asyncLogin(data));
+  }
+
   return (
     <LoginContainer>
       <LoginItemsWrapper>
@@ -44,6 +49,7 @@ function Login() {
             <LoginForm
               isLogin={isLogin}
               setIsLogin={(state: boolean) => setIsLogin(state)}
+              login={(data) => login(data)}
             />
           ) : (
             <SignupForm
@@ -51,6 +57,13 @@ function Login() {
               createUser={(data) => createUser(data)}
             />
           )}
+          <button
+            onClick={() => {
+              console.log(session.id);
+            }}
+          >
+            cookie
+          </button>
         </LoginRightSection>
       </LoginItemsWrapper>
     </LoginContainer>

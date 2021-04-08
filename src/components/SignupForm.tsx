@@ -8,16 +8,10 @@ import {
 } from '../styles/components/form';
 
 import { Button } from '.';
+import { FormInputsProps } from '../types/login.types';
 import { toSHA512 } from '../utils';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-
-interface FormInputsProps {
-  orgId: string;
-  name: string;
-  username: string;
-  password: string;
-}
 
 interface SignupFormProps {
   setIsLogin: (state: boolean) => void;

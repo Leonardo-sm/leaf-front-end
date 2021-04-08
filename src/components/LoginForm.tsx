@@ -8,6 +8,7 @@ import {
 } from '../styles/components/form';
 
 import { Button } from '.';
+import { FormInputsProps } from '../types/login.types';
 import { toSHA512 } from '../utils';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -15,11 +16,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 interface LoginFormProps {
   isLogin: boolean;
   setIsLogin: (state: boolean) => void;
-}
-
-interface FormInputsProps {
-  username: string;
-  password: string;
+  login: (data: FormInputsProps) => any;
 }
 
 const schema = yup.object().shape({
@@ -27,7 +24,7 @@ const schema = yup.object().shape({
   password: yup.string().max(100).required(),
 });
 
-function LoginForm({ setIsLogin }: LoginFormProps) {
+function LoginForm({ setIsLogin, login }: LoginFormProps) {
   const { register, handleSubmit, errors, watch } = useForm<FormInputsProps>({
     resolver: yupResolver(schema),
   });
@@ -37,8 +34,9 @@ function LoginForm({ setIsLogin }: LoginFormProps) {
   }
 
   const onSubmit = (data: FormInputsProps) => {
-    return console.log({
+    login({
       ...data,
+      username: data.username.toLowerCase(),
       password: toSHA512(data.password),
     });
   };
