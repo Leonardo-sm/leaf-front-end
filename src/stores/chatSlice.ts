@@ -8,3 +8,18 @@ interface MessageProps {
   content: string;
   date: string;
 }
+
+const initialState: MessageProps = {
+  messageId: '',
+  sender: '',
+  receiver: '',
+  content: '',
+  date: '',
+};
+
+const chat = createSlice({
+  name: 'chat',
+  initialState,
+
+  reducers: {},
+});
