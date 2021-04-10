@@ -1,8 +1,8 @@
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-import { Home } from '../pages/Home';
-import Login from '../pages/Login';
-import { Success } from '../pages/Success';
+import { Home } from './pages/Home';
+import Login from './pages/Login';
+import { Success } from './pages/Success';
 
 function Routes() {
   return (
