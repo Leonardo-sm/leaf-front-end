@@ -7,10 +7,12 @@ import { api } from '../services/api';
 
 interface SessionState {
   id: string;
+  isLogged: boolean;
 }
 
 const initialState: SessionState = {
   id: '',
+  isLogged: false,
 };
 
 const session = createSlice({
@@ -21,10 +23,14 @@ const session = createSlice({
     setId(state, action: PayloadAction<string>) {
       state.id = action.payload;
     },
+
+    setIsLogged(state, action: PayloadAction<boolean>) {
+      state.isLogged = action.payload;
+    },
   },
 });
 
-export const { setId } = session.actions;
+export const { setId, setIsLogged } = session.actions;
 export default session.reducer;
 
 export function asyncLogin(
@@ -35,10 +41,14 @@ export function asyncLogin(
       .post('/authenticate', data)
       .then((response: AxiosResponse) => {
         dispatch(setId(response.data.uniqueSessionId));
+        if (response.status === 201) {
+          dispatch(setIsLogged(true));
+        }
         console.log('logado');
       })
       .catch((reason: AxiosError) => {
         console.log('error');
+        dispatch(setIsLogged(false));
       });
   };
 }

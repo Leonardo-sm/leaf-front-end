@@ -7,7 +7,6 @@ import {
 } from '../styles/pages/login';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Cookies from 'js-cookie';
 import { FormInputsProps } from '../types/login.types';
 import LoginForm from '../components/LoginForm';
 import { RootState } from '../stores/store';
@@ -57,13 +56,6 @@ function Login() {
               createUser={(data) => createUser(data)}
             />
           )}
-          <button
-            onClick={() => {
-              console.log(session.id);
-            }}
-          >
-            cookie
-          </button>
         </LoginRightSection>
       </LoginItemsWrapper>
     </LoginContainer>
