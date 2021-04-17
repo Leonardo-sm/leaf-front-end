@@ -25,14 +25,15 @@ export const SuccessContainer = styled.div`
   h1 {
     margin: 0;
 
-    font-size: 96px;
+    font-size: min(15vw, 10vh);
   }
 
   h3 {
     margin: 8.75rem 0;
 
     font-weight: 500;
-    font-size: 64px;
+    font-size: min(7vw, 7vh);
+    text-align: center;
 
     span {
       color: ${fromTheme('primary')};
