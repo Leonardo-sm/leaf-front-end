@@ -44,11 +44,18 @@ export function asyncLogin(
         if (response.status === 201) {
           dispatch(setIsLogged(true));
         }
-        console.log('logado');
       })
       .catch((reason: AxiosError) => {
         console.log('error');
         dispatch(setIsLogged(false));
       });
+  };
+}
+
+export function asyncSignOut() {
+  return async (dispatch: AppDispatch) => {
+    await api.get('/logout').catch((reason: AxiosError) => {
+      console.log(reason);
+    });
   };
 }
