@@ -20,8 +20,13 @@ export const LoginItemsWrapper = styled.div`
   align-items: center;
   flex-direction: row;
   justify-content: center;
+  width: 100%;
 
   margin-bottom: 15rem;
+
+  @media (max-width: 1000px) {
+    margin: 0;
+  }
 `;
 
 export const LoginRightSection = styled.section`
@@ -29,9 +34,19 @@ export const LoginRightSection = styled.section`
   display: flex;
 
   margin: 0 10rem;
+
+  @media (max-width: 1000px) {
+    align-items: center;
+  }
 `;
 
 export const LoginImage = styled.img`
   width: 35vw;
   height: 52vh;
+`;
+
+export const LogoImage = styled.img`
+  @media (max-width: 1000px) {
+    width: 73vw;
+  }
 `;

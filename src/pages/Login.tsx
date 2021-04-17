@@ -4,6 +4,7 @@ import {
   LoginImage,
   LoginItemsWrapper,
   LoginRightSection,
+  LogoImage,
 } from '../styles/pages/login';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -14,12 +15,14 @@ import SignupForm from '../components/SignupForm';
 import { api } from '../services/api';
 import { asyncLogin } from '../stores/sessionSlice';
 import { useHistory } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const isMobile = window.innerWidth <= 1000;
 
   const session = useSelector((state: RootState) => state.session);
 
@@ -41,19 +44,23 @@ function Login() {
   return (
     <LoginContainer>
       <LoginItemsWrapper>
-        {isLogin && <LoginImage src="images/LeafLogo.svg" alt="Logo" />}
+        {isLogin && !isMobile && (
+          <LoginImage src="images/LeafLogo.svg" alt="leaf logo" />
+        )}
         <LoginRightSection>
-          <img src="images/Leaf.svg" alt="" />
+          <LogoImage src="images/Leaf.svg" alt="leaf" />
           {isLogin ? (
             <LoginForm
               isLogin={isLogin}
               setIsLogin={(state: boolean) => setIsLogin(state)}
               login={(data) => login(data)}
+              isMobile={isMobile}
             />
           ) : (
             <SignupForm
               setIsLogin={(state: boolean) => setIsLogin(state)}
               createUser={(data) => createUser(data)}
+              isMobile={isMobile}
             />
           )}
         </LoginRightSection>

@@ -15,6 +15,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 interface LoginFormProps {
   isLogin: boolean;
+  isMobile: boolean;
   setIsLogin: (state: boolean) => void;
   login: (data: FormInputsProps) => any;
 }
@@ -24,7 +25,7 @@ const schema = yup.object().shape({
   password: yup.string().max(100).required(),
 });
 
-function LoginForm({ setIsLogin, login }: LoginFormProps) {
+function LoginForm({ setIsLogin, login, isMobile }: LoginFormProps) {
   const { register, handleSubmit, errors, watch } = useForm<FormInputsProps>({
     resolver: yupResolver(schema),
   });
@@ -58,10 +59,14 @@ function LoginForm({ setIsLogin, login }: LoginFormProps) {
         />
       </LoginInputWrapper>
       <LoginButtonWrapper>
-        <Button w="9rem" type="submit">
+        <Button w={isMobile ? '7.5rem' : '9rem'} type="submit">
           Logar
         </Button>
-        <Button w="9rem" idType="outline" onClick={signinHandle}>
+        <Button
+          w={isMobile ? '7.5rem' : '9rem'}
+          idType="outline"
+          onClick={signinHandle}
+        >
           Cadastrar
         </Button>
       </LoginButtonWrapper>
