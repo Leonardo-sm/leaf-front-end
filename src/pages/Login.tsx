@@ -6,6 +6,7 @@ import {
   LoginRightSection,
 } from '../styles/pages/login';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 import { FormInputsProps } from '../types/login.types';
 import LoginForm from '../components/LoginForm';
@@ -14,7 +15,6 @@ import SignupForm from '../components/SignupForm';
 import { api } from '../services/api';
 import { asyncLogin } from '../stores/sessionSlice';
 import { useHistory } from 'react-router-dom';
-import { useState } from 'react';
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -22,6 +22,12 @@ function Login() {
   const dispatch = useDispatch();
 
   const session = useSelector((state: RootState) => state.session);
+
+  useEffect(() => {
+    if (session.isLogged) {
+      history.push('/home');
+    }
+  }, [session.isLogged, history]);
 
   async function createUser(data: FormInputsProps) {
     await api
