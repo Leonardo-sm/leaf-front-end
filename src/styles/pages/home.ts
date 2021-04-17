@@ -5,6 +5,11 @@ export const HomeContainer = styled.div`
   flex-direction: row;
 
   display: flex;
+
+  @media (max-width: 1000px) {
+    flex-direction: column;
+    height: 100vh;
+  }
 `;
 
 export const HomeImages = styled.div`

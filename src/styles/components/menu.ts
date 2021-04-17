@@ -9,6 +9,11 @@ export const MenuContainer = styled.div`
   height: 100vh;
 
   background-color: ${fromTheme('surface')};
+
+  @media (max-width: 1000px) {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const ButtonsContainer = styled.div`

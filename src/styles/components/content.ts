@@ -17,6 +17,10 @@ export const ContentContainer = styled.div`
     font-weight: 400;
     font-size: 24;
   }
+
+  @media (max-width: 1000px) {
+    height: 100%;
+  }
 `;
 
 export const MessageContainer = styled.div`

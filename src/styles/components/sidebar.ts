@@ -48,4 +48,29 @@ export const SidebarContainer = styled.div`
       margin-bottom: 44px;
     }
   }
+
+  @media (max-width: 1000px) {
+    flex-direction: row;
+    height: 6.25rem;
+    width: 100vw;
+
+    padding: 0 2rem;
+
+    button {
+    width: 35px;
+    height: 35px;
+
+    &:hover {
+      color: ${fromTheme('primary')};
+    }
+
+    &:first-child {
+       margin-top: 0px;
+      margin-bottom: 0px;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 `;
