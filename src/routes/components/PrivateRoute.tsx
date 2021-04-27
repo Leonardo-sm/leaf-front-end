@@ -1,6 +1,5 @@
-import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 
-import { ReactNode } from 'react';
 import { RootState } from '../../stores/store';
 import { useSelector } from 'react-redux';
 

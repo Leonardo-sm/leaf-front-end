@@ -1,7 +1,12 @@
-import { SidebarContainer } from '../styles/components/sidebar';
+import { useDispatch } from 'react-redux';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { SidebarContainer } from '../styles/components/sidebar';
+import { setIsLogged } from '../stores/sessionSlice';
 
 export function Sidebar() {
+  const dispatch = useDispatch();
+
   return (
     <SidebarContainer>
       <div>
@@ -14,7 +19,7 @@ export function Sidebar() {
         </button>
       </div>
 
-      <button>
+      <button onClick={() => dispatch(setIsLogged(false))}>
         <FontAwesomeIcon icon={['fas', 'sign-out-alt']} size="2x" />
       </button>
     </SidebarContainer>

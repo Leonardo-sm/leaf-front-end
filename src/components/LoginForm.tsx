@@ -25,7 +25,7 @@ const schema = yup.object().shape({
 });
 
 function LoginForm({ setIsLogin, login }: LoginFormProps) {
-  const { register, handleSubmit, errors, watch } = useForm<FormInputsProps>({
+  const { register, handleSubmit } = useForm<FormInputsProps>({
     resolver: yupResolver(schema),
   });
 
