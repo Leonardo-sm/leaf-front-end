@@ -1,5 +1,5 @@
 import { HomeContainer, HomeImages } from '../styles/pages/home';
-
+import { Menu } from '../components/Menu';
 import { Sidebar } from '../components/Sidebar';
 import { useValidateLogin } from '../hooks/query/useSession';
 import { useEffect } from 'react';
@@ -25,6 +25,7 @@ export function Home() {
   return (
     <HomeContainer>
       <Sidebar />
+      <Menu />
       <HomeImages>
         <img src="images/LeafHome.svg" alt="Leaf home logo" />
 
