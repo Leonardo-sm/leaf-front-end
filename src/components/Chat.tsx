@@ -23,15 +23,14 @@ export function Chat() {
         </RightMessages>
 
         <LeftMessages>
-          <p>Safe</p>
+          <p>Ok</p>
         </LeftMessages>
 
         <RightMessages>
           <p>
-            Gostaria de dizer que seu trabalho é deverás aperfeiçoado e tenho
-            muito orgulho de ter um companheiro de equipe desses em minha área
-            florestal, portanto, venho por meio desta agradeçer formalmente sua
-            participação durante nossa jornada de trabalho.
+            Acredito que por enquanto não iremos precisar de nada, porém alguns
+            dados vieram estranhos aqui e precisarei reenviar à central, para
+            eles averiguarem a situação e mandarem o retorno.
           </p>
         </RightMessages>
       </MessagesContainer>
