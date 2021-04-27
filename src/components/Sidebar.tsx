@@ -1,16 +1,11 @@
-import {
-  SidebarButton,
-  SidebarContainer,
-  SidebarWrapper,
-  SignOutButton,
-} from '../styles/components/sidebar';
+import { useDispatch } from 'react-redux';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Menu } from './Menu';
-import { useState } from 'react';
+import { SidebarContainer } from '../styles/components/sidebar';
+import { setIsLogged } from '../stores/sessionSlice';
 
 export function Sidebar() {
-  const [isChatMenuActive, setIsChatMenuActive] = useState(true);
-  const [isChartMenuActive, setIsChartMenuActive] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <SidebarWrapper>
@@ -38,7 +33,9 @@ export function Sidebar() {
         </SignOutButton>
       </SidebarContainer>
 
-      {isChatMenuActive && <Menu />}
-    </SidebarWrapper>
+      <button onClick={() => dispatch(setIsLogged(false))}>
+        <FontAwesomeIcon icon={['fas', 'sign-out-alt']} size="2x" />
+      </button>
+    </SidebarContainer>
   );
 }
