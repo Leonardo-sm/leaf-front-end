@@ -1,14 +1,15 @@
 import { HomeContainer, HomeImages } from '../styles/pages/home';
-import { Menu } from '../components/Menu';
 import { Sidebar } from '../components/Sidebar';
 import { useValidateLogin } from '../hooks/query/useSession';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../stores/store';
 import { asyncSignOut } from '../stores/sessionSlice';
+import { Chat } from '../components/Chat';
 
 export function Home() {
+  const [chatIsActive, setChatIsActive] = useState(true);
   const session = useSelector((state: RootState) => state.session);
   const history = useHistory();
   const dispatch = useDispatch();
