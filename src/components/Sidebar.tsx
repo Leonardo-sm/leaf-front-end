@@ -1,27 +1,52 @@
 import { useDispatch } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SidebarContainer } from '../styles/components/sidebar';
+import {
+  SidebarButton,
+  SidebarContainer,
+  SidebarWrapper,
+  SignOutButton,
+} from '../styles/components/sidebar';
 import { setIsLogged } from '../stores/sessionSlice';
+import { useState } from 'react';
+import { Menu } from './Menu';
 
 export function Sidebar() {
+  const [isChatMenuActive, setIsChatMenuActive] = useState(false);
+  const [isChartMenuActive, setIsChartMenuActive] = useState(false);
   const dispatch = useDispatch();
 
   return (
-    <SidebarContainer>
-      <div>
-        <button>
-          <FontAwesomeIcon icon={['far', 'comment-alt']} size="2x" />
-        </button>
+    <SidebarWrapper>
+      <SidebarContainer>
+        <div>
+          <SidebarButton active={isChatMenuActive}>
+            <FontAwesomeIcon
+              icon={['far', 'comment-alt']}
+              size="2x"
+              onClick={() => {
+                setIsChatMenuActive(!isChatMenuActive);
+              }}
+            />
+          </SidebarButton>
 
-        <button>
-          <FontAwesomeIcon icon={['fas', 'chart-bar']} size="2x" />
-        </button>
-      </div>
+          <SidebarButton active={isChartMenuActive}>
+            <FontAwesomeIcon
+              icon={['fas', 'chart-bar']}
+              size="2x"
+              onClick={() => {
+                setIsChartMenuActive(!isChartMenuActive);
+              }}
+            />
+          </SidebarButton>
+        </div>
 
-      <button onClick={() => dispatch(setIsLogged(false))}>
-        <FontAwesomeIcon icon={['fas', 'sign-out-alt']} size="2x" />
-      </button>
-    </SidebarContainer>
+        <SignOutButton onClick={() => dispatch(setIsLogged(false))}>
+          <FontAwesomeIcon icon={['fas', 'sign-out-alt']} size="2x" />
+        </SignOutButton>
+      </SidebarContainer>
+
+      {isChatMenuActive && <Menu />}
+    </SidebarWrapper>
   );
 }
