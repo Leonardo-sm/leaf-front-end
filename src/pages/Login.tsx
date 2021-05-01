@@ -15,6 +15,7 @@ import SignupForm from '../components/SignupForm';
 import { api } from '../services/api';
 import { asyncLogin } from '../stores/sessionSlice';
 import { useHistory } from 'react-router-dom';
+import socket from '../services/socket';
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -42,7 +43,16 @@ function Login() {
 
   function login(data: Pick<FormInputsProps, 'username' | 'password'>) {
     dispatch(asyncLogin(data));
+    socket.connect();
   }
+
+  function sendUserConnected() {
+    socket.auth = { name: 'Marcos Silva' };
+  }
+
+  useEffect(() => {
+    sendUserConnected();
+  }, []);
 
   return (
     <LoginContainer>
