@@ -24,6 +24,7 @@ export const ButtonsContainer = styled.div`
 export const MenuButton = styled.button<{ active: boolean }>`
   transition: 0.2s;
   border: none;
+  outline: none;
 
   padding: 5px 10px;
 
@@ -48,11 +49,12 @@ export const MenuButton = styled.button<{ active: boolean }>`
 `;
 
 export const SelectionLine = styled.div`
+  position: relative;
+
   height: 5px;
   width: 130px;
+  left: 80px;
   border-radius: 10px;
-
-  margin-left: 25px;
 
   margin-bottom: 20px;
 
