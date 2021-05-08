@@ -7,11 +7,13 @@ import { api } from '../services/api';
 
 interface SessionState {
   id: string;
+  name: string;
   isLogged: boolean;
 }
 
 const initialState: SessionState = {
   id: '',
+  name: '',
   isLogged: false,
 };
 
@@ -23,14 +25,16 @@ const session = createSlice({
     setId(state, action: PayloadAction<string>) {
       state.id = action.payload;
     },
-
+    setName(state, action: PayloadAction<string>) {
+      state.name = action.payload;
+    },
     setIsLogged(state, action: PayloadAction<boolean>) {
       state.isLogged = action.payload;
     },
   },
 });
 
-export const { setId, setIsLogged } = session.actions;
+export const { setId, setName, setIsLogged } = session.actions;
 export default session.reducer;
 
 export function asyncLogin(
@@ -43,6 +47,8 @@ export function asyncLogin(
         dispatch(setId(response.data.uniqueSessionId));
         if (response.status === 201) {
           dispatch(setIsLogged(true));
+          dispatch(setName(response.data.name));
+          console.log(response);
         }
       })
       .catch((reason: AxiosError) => {
