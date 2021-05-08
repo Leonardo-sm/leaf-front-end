@@ -1,12 +1,14 @@
 import { HomeContainer, HomeImages } from '../styles/pages/home';
+import { useDispatch, useSelector } from 'react-redux';
+
+import Graphics from './Graphics';
 import { Menu } from '../components/Menu';
-import { Sidebar } from '../components/Sidebar';
-import { useValidateLogin } from '../hooks/query/useSession';
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { RootState } from '../stores/store';
+import { Sidebar } from '../components/Sidebar';
 import { asyncSignOut } from '../stores/sessionSlice';
+import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useValidateLogin } from '../hooks/query/useSession';
 
 export function Home() {
   const session = useSelector((state: RootState) => state.session);
@@ -25,12 +27,14 @@ export function Home() {
   return (
     <HomeContainer>
       <Sidebar />
-      <Menu />
+
+      {/* <Menu />
       <HomeImages>
         <img src="images/LeafHome.svg" alt="Leaf home logo" />
 
         <img src="images/Leaf.svg" alt="Leaf" />
-      </HomeImages>
+      </HomeImages> */}
+      <Graphics />
     </HomeContainer>
   );
 }
