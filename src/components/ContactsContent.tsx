@@ -4,12 +4,17 @@ import {
 } from '../styles/components/content';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSelector } from 'react-redux';
+import { RootState } from '../stores/store';
+import { UserProps } from '../pages/Home';
 
 export function ContactsContent() {
+  const chat = useSelector((state: RootState) => state.chat);
+
   return (
     <ContentContainer>
-      {connectedUsers.map((user) => (
-        <ContactContainer key={user.id}>
+      {chat.connectedUsers.map((user: UserProps) => (
+        <ContactContainer key={user.userID}>
           <h2>{user.name}</h2>
 
           {user.connected ? (
