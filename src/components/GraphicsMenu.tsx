@@ -4,50 +4,24 @@ import {
   MenuContainer,
 } from '../styles/components/graphicsMenu';
 
-function GraphicsMenu() {
+import { GraphicScreenProps } from '../pages/Graphics';
+
+interface GraphicsMenuProps {
+  graphics: GraphicScreenProps[];
+}
+
+function GraphicsMenu({ graphics }: GraphicsMenuProps) {
   return (
     <MenuContainer>
       <h2>Graficos</h2>
       <GraphicsItemsList>
-        <GraphicsItemsButton>
-          <h3>Taxa de queimadas nos ultmos 10 anos</h3>
-          <h4>Descrição: </h4>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci,
-            ipsam provident eum quaerat minima molestias exercitationem
-            accusantium eligendi ut nostrum consequuntur illum cumque sint error
-            maiores eaque recusandae harum expedita? Lorem, ipsum dolor sit amet
-            consectetur adipisicing elit. Vel vero rerum accusantium vitae
-            fugiat nihil veritatis eius temporibus, alias rem qui cupiditate
-            necessitatibus porro, et cumque consectetur dicta ad quis?
-          </p>
-        </GraphicsItemsButton>
-        <GraphicsItemsButton>
-          <h3>Taxa de queimadas nos ultmos 10 anos</h3>
-          <h4>Descrição: </h4>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci,
-            ipsam provident eum quaerat minima molestias exercitationem
-            accusantium eligendi ut nostrum consequuntur illum cumque sint error
-            maiores eaque recusandae harum expedita? Lorem, ipsum dolor sit amet
-            consectetur adipisicing elit. Vel vero rerum accusantium vitae
-            fugiat nihil veritatis eius temporibus, alias rem qui cupiditate
-            necessitatibus porro, et cumque consectetur dicta ad quis?
-          </p>
-        </GraphicsItemsButton>
-        <GraphicsItemsButton>
-          <h3>Taxa de queimadas nos ultmos 10 anos</h3>
-          <h4>Descrição: </h4>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci,
-            ipsam provident eum quaerat minima molestias exercitationem
-            accusantium eligendi ut nostrum consequuntur illum cumque sint error
-            maiores eaque recusandae harum expedita? Lorem, ipsum dolor sit amet
-            consectetur adipisicing elit. Vel vero rerum accusantium vitae
-            fugiat nihil veritatis eius temporibus, alias rem qui cupiditate
-            necessitatibus porro, et cumque consectetur dicta ad quis?
-          </p>
-        </GraphicsItemsButton>
+        {graphics.map((item, key) => (
+          <GraphicsItemsButton key={key} onClick={() => null}>
+            <h3>{item.title}</h3>
+            <h4>Descrição: </h4>
+            <p>{item.description}</p>
+          </GraphicsItemsButton>
+        ))}
       </GraphicsItemsList>
     </MenuContainer>
   );

@@ -14,6 +14,7 @@ export const MenuContainer = styled.div`
 
   h2 {
     margin: 2rem 0;
+    font-family: 'Inter', sans-serif;
   }
 `;
 

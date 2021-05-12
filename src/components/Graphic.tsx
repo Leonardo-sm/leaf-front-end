@@ -9,6 +9,8 @@ import {
   YAxis,
 } from 'recharts';
 
+import { GraphicProps } from '../pages/Graphics';
+
 const data = [
   {
     name: 'Page A',
@@ -54,7 +56,11 @@ const data = [
   },
 ];
 
-function Graphic() {
+interface IGraphicProps {
+  data: GraphicProps[];
+}
+
+function Graphic({ data }: IGraphicProps) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart
