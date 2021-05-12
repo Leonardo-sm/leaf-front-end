@@ -1,11 +1,13 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 
 import sessionReducer from './sessionSlice';
+import chatReducer from './chatSlice';
 import { useDispatch } from 'react-redux';
 
 const store = configureStore({
   reducer: {
     session: sessionReducer,
+    chat: chatReducer,
   },
 });
 
