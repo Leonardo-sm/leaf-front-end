@@ -43,16 +43,7 @@ function Login() {
 
   function login(data: Pick<FormInputsProps, 'username' | 'password'>) {
     dispatch(asyncLogin(data));
-    socket.connect();
   }
-
-  function sendUserConnected() {
-    socket.auth = { name: 'Marcos Silva' };
-  }
-
-  useEffect(() => {
-    sendUserConnected();
-  }, []);
 
   return (
     <LoginContainer>
