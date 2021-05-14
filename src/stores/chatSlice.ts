@@ -5,9 +5,22 @@ import { UserProps } from '../pages/Home';
 
 interface ChatProps {
   connectedUsers: UserProps[];
+  isChatActive: boolean;
+  selectedUser: UserProps;
 }
 
-const initialState: ChatProps = { connectedUsers: [] };
+const initialState: ChatProps = {
+  connectedUsers: [],
+  isChatActive: false,
+  selectedUser: {
+    userID: '',
+    name: '',
+    self: false,
+    connected: false,
+    messages: [],
+    hasNewMessages: false,
+  },
+};
 
 const chat = createSlice({
   name: 'chat',
@@ -16,8 +29,18 @@ const chat = createSlice({
     setConnectedUsers(state, action: PayloadAction<UserProps[]>) {
       state.connectedUsers = action.payload;
     },
+    setIsChatActive(state, action: PayloadAction<boolean>) {
+      state.isChatActive = action.payload;
+    },
+    setSelectedUser(state, action: PayloadAction<UserProps>) {
+      state.selectedUser = action.payload;
+    },
   },
 });
 
-export const { setConnectedUsers } = chat.actions;
+export const {
+  setConnectedUsers,
+  setIsChatActive,
+  setSelectedUser,
+} = chat.actions;
 export default chat.reducer;
