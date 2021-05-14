@@ -11,15 +11,21 @@ import { Chat } from '../components/Chat';
 import socket from '../services/socket';
 import { connected } from 'node:process';
 
+export type MessagesProps = {
+  content: string;
+  fromSelf: boolean;
+};
+
 export type UserProps = {
   self: boolean;
   userID: string;
   name: string;
   connected: boolean;
+  messages: MessagesProps[];
+  hasNewMessages: boolean;
 };
 
 export function Home() {
-  const [chatIsActive, setChatIsActive] = useState(true);
   const session = useSelector((state: RootState) => state.session);
   const chat = useSelector((state: RootState) => state.chat);
   const history = useHistory();
@@ -49,6 +55,8 @@ export function Home() {
         name: user.name,
         connected: true,
         self: user.userID === socket.id,
+        messages: [],
+        hasNewMessages: false,
       };
       usersList.push(newUser);
     });
@@ -69,6 +77,8 @@ export function Home() {
       name: user.name,
       self: false,
       connected: true,
+      messages: [],
+      hasNewMessages: false,
     };
     dispatch(setUsersIntoStore([...chat.connectedUsers, newUser]));
   });
@@ -77,7 +87,7 @@ export function Home() {
     <HomeContainer>
       <Sidebar />
 
-      {chatIsActive ? (
+      {chat.isChatActive ? (
         <Chat />
       ) : (
         <HomeImages>
