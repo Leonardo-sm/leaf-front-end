@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import socket from '../services/socket';
+import { RootState } from '../stores/store';
 
 import {
   ChatContainer,
@@ -9,7 +12,19 @@ import {
 } from '../styles/components/chat';
 
 export function Chat() {
-  const [isSending, setIsSending] = useState(false);
+  const [content, setContent] = useState('');
+  const chat = useSelector((state: RootState) => state.chat);
+
+  function onMessage(content: string) {
+    if (chat.selectedUser) {
+      socket.emit('privateMessage', { content, to: chat.selectedUser });
+    }
+
+    chat.selectedUser.messages.push({
+      content,
+      fromSelf: true,
+    });
+  }
 
   return (
     <ChatContainer>
@@ -35,7 +50,17 @@ export function Chat() {
         </RightMessages>
       </MessagesContainer>
 
-      <TextareaBox placeholder="Digite Aqui..." maxRows={6} />
+      <TextareaBox
+        placeholder="Digite Aqui..."
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        onSubmit={(e) => {
+          e.preventDefault();
+          onMessage(content);
+          setContent('');
+        }}
+        maxRows={6}
+      />
     </ChatContainer>
   );
 }
