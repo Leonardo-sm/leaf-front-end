@@ -6,9 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../stores/store';
 import { asyncSignOut } from '../stores/sessionSlice';
-import { setConnectedUsers } from '../stores/chatSlice';
+import { setConnectedUsers as setUsersIntoStore } from '../stores/chatSlice';
 import { Chat } from '../components/Chat';
 import socket from '../services/socket';
+import { connected } from 'node:process';
 
 export type UserProps = {
   self: boolean;
@@ -40,31 +41,36 @@ export function Home() {
 
   useValidateLogin();
 
-  function setInitialProps(user: UserProps) {
-    user.connected = true;
-  }
-
   socket.on('users', (users: any) => {
-    users.forEach((user: any) => {
-      user.self = user.userID === socket.id;
-      setInitialProps(user);
+    let usersList: UserProps[] = [];
+    users.forEach((user: UserProps) => {
+      let newUser: UserProps = {
+        userID: user.userID,
+        name: user.name,
+        connected: true,
+        self: user.userID === socket.id,
+      };
+      usersList.push(newUser);
     });
 
-    users.sort((a: UserProps, b: UserProps) => {
+    usersList = usersList.sort((a: UserProps, b: UserProps) => {
       if (a.self) return -1;
       if (b.self) return 1;
       if (a.name < b.name) return -1;
       return a.name > b.name ? 1 : 0;
     });
 
-    dispatch(setConnectedUsers(chat.connectedUsers));
-    console.log(chat.connectedUsers);
+    dispatch(setUsersIntoStore(usersList));
   });
 
   socket.on('userConnected', (user: UserProps) => {
-    setInitialProps(user);
-    dispatch(setConnectedUsers([...chat.connectedUsers, user]));
-    console.log('passou por aqui');
+    let newUser: UserProps = {
+      userID: user.userID,
+      name: user.name,
+      self: false,
+      connected: true,
+    };
+    dispatch(setUsersIntoStore([...chat.connectedUsers, newUser]));
   });
 
   return (
