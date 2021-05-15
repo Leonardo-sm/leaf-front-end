@@ -1,4 +1,4 @@
-import { AppDispatch } from './store';
+import { AppDispatch, AppThunk } from './store';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { UserProps } from '../pages/Home';
@@ -44,3 +44,10 @@ export const {
   setSelectedUser,
 } = chat.actions;
 export default chat.reducer;
+
+export function selectUser(user: UserProps): AppThunk {
+  return (dispatch: AppDispatch) => {
+    dispatch(setSelectedUser(user));
+    dispatch();
+  };
+}
