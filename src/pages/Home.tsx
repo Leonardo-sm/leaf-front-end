@@ -22,8 +22,6 @@ export function Home() {
     }
   }, [session.isLogged, dispatch, history]);
 
-  useValidateLogin();
-
   return (
     <HomeContainer>
       <Sidebar />

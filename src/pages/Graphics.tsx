@@ -4,12 +4,16 @@ import {
   GraphicBox,
   GraphicsWrapper,
 } from '../styles/pages/graphics';
-import { useMemo, useState } from 'react';
 
 import Graphic from '../components/Graphic';
 import GraphicsMenu from '../components/GraphicsMenu';
+import { api } from '../services/api';
+import { useQuery } from 'react-query';
+import { useState } from 'react';
 
 export interface GraphicProps {
+  graphicId: number;
+  id: number;
   name: string;
   uv: number;
   pv: number;
@@ -27,6 +31,8 @@ const defaults: GraphicScreenProps = {
   description: '',
   data: [
     {
+      graphicId: 0,
+      id: 0,
       name: '',
       uv: 0,
       pv: 0,
@@ -37,22 +43,30 @@ const defaults: GraphicScreenProps = {
 
 function Graphics() {
   const [graphics, setGraphic] = useState<GraphicScreenProps[]>([]);
-  const [graphicSelected, setGraphicSelected] = useState<GraphicScreenProps>(
-    defaults
-  );
+  const [graphicSelected, setGraphicSelected] = useState<any>([]);
+
+  const result = useQuery('graphics', () => api.get('/graphics')).data?.data;
 
   return (
     <ContainerGraphics>
-      <GraphicsMenu graphics={graphics} />
+      <GraphicsMenu
+        graphics={result}
+        setGraphicSelected={(data: GraphicProps) => setGraphicSelected([data])}
+      />
       <GraphicsWrapper>
-        <GraphicBox>
-          <h1>{graphicSelected.title}</h1>
-          <Graphic data={graphicSelected.data} />
-          <DescriptionWrapper>
-            <h3>Descrição: </h3>
-            <p>{graphicSelected.description}</p>
-          </DescriptionWrapper>
-        </GraphicBox>
+        {graphicSelected.length !== 0 && (
+          <GraphicBox>
+            <h1>{graphicSelected[0].graphic.title}</h1>
+            <Graphic
+              data={graphicSelected[0].data}
+              type={graphicSelected[0].graphic.type}
+            />
+            <DescriptionWrapper>
+              <h3>Descrição:</h3>
+              <p>{graphicSelected[0].graphic.description}</p>
+            </DescriptionWrapper>
+          </GraphicBox>
+        )}
       </GraphicsWrapper>
     </ContainerGraphics>
   );

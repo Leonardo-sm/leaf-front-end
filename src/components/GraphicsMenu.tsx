@@ -7,19 +7,22 @@ import {
 import { GraphicScreenProps } from '../pages/Graphics';
 
 interface GraphicsMenuProps {
-  graphics: GraphicScreenProps[];
+  graphics: GraphicScreenProps;
 }
 
-function GraphicsMenu({ graphics }: GraphicsMenuProps) {
+function GraphicsMenu({ graphics, setGraphicSelected }: any) {
   return (
     <MenuContainer>
       <h2>Graficos</h2>
       <GraphicsItemsList>
-        {graphics.map((item, key) => (
-          <GraphicsItemsButton key={key} onClick={() => null}>
-            <h3>{item.title}</h3>
+        {graphics?.map((item: any, key: any) => (
+          <GraphicsItemsButton
+            key={key}
+            onClick={() => setGraphicSelected(item)}
+          >
+            <h3>{item.graphic.title}</h3>
             <h4>Descrição: </h4>
-            <p>{item.description}</p>
+            <p>{item.graphic.description}</p>
           </GraphicsItemsButton>
         ))}
       </GraphicsItemsList>

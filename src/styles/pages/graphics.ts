@@ -15,7 +15,7 @@ export const GraphicsWrapper = styled.div`
 `;
 
 export const GraphicBox = styled.div`
-  width: 100%;
+  width: 90%;
   height: 85vh;
   text-align: center;
 

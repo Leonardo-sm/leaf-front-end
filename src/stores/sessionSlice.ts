@@ -12,7 +12,7 @@ interface SessionState {
 
 const initialState: SessionState = {
   id: '',
-  isLogged: false,
+  isLogged: true,
 };
 
 const session = createSlice({
