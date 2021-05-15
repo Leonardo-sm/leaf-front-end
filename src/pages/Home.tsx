@@ -11,6 +11,11 @@ import { Chat } from '../components/Chat';
 import socket from '../services/socket';
 import { connected } from 'node:process';
 
+type ReceivedMessages = {
+  content: string;
+  from: string;
+};
+
 export type MessagesProps = {
   content: string;
   fromSelf: boolean;
@@ -81,6 +86,21 @@ export function Home() {
       hasNewMessages: false,
     };
     dispatch(setUsersIntoStore([...chat.connectedUsers, newUser]));
+  });
+
+  socket.on('privateMessage', ({ content, from }: ReceivedMessages) => {
+    chat.connectedUsers.forEach((user: UserProps) => {
+      if (user.userID === from) {
+        user.messages.push({
+          content,
+          fromSelf: false,
+        });
+
+        if (user !== chat.selectedUser) {
+          user.hasNewMessages = true;
+        }
+      }
+    });
   });
 
   return (

@@ -15,9 +15,17 @@ export function Chat() {
   const [content, setContent] = useState('');
   const chat = useSelector((state: RootState) => state.chat);
 
+  function displaySender(index: number) {
+    return (
+      index === 0 ||
+      chat.selectedUser.messages[index - 1].fromSelf !==
+        chat.selectedUser.messages[index].fromSelf
+    );
+  }
+
   function onMessage(content: string) {
     if (chat.selectedUser) {
-      socket.emit('privateMessage', { content, to: chat.selectedUser });
+      socket.emit('privateMessage', { content, to: chat.selectedUser.userID });
     }
 
     chat.selectedUser.messages.push({
@@ -28,27 +36,23 @@ export function Chat() {
 
   return (
     <ChatContainer>
-      <MessagesContainer>
-        <LeftMessages>
-          <p>Como estão as coisas?</p>
-        </LeftMessages>
-
-        <RightMessages>
-          <p>Está tudo certo por aqui.</p>
-        </RightMessages>
-
-        <LeftMessages>
-          <p>Ok</p>
-        </LeftMessages>
-
-        <RightMessages>
-          <p>
-            Acredito que por enquanto não iremos precisar de nada, porém alguns
-            dados vieram estranhos aqui e precisarei reenviar à central, para
-            eles averiguarem a situação e mandarem o retorno.
-          </p>
-        </RightMessages>
-      </MessagesContainer>
+      {chat.selectedUser.messages.map((message, index) => {
+        if (displaySender(index)) {
+          return (
+            <MessagesContainer key={index}>
+              {message.fromSelf ? (
+                <RightMessages>
+                  <p>{message.content}</p>
+                </RightMessages>
+              ) : (
+                <LeftMessages>
+                  <p>{message.content}</p>
+                </LeftMessages>
+              )}
+            </MessagesContainer>
+          );
+        } else return <></>;
+      })}
 
       <TextareaBox
         placeholder="Digite Aqui..."
@@ -61,6 +65,15 @@ export function Chat() {
         }}
         maxRows={6}
       />
+      <button
+        type="button"
+        onClick={() => {
+          onMessage(content);
+          setContent('');
+        }}
+      >
+        Enviar
+      </button>
     </ChatContainer>
   );
 }
