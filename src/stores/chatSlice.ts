@@ -1,7 +1,7 @@
 import { AppDispatch, AppThunk } from './store';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { UserProps } from '../pages/Home';
+import { MessagesProps, UserProps } from '../pages/Home';
 
 interface ChatProps {
   connectedUsers: UserProps[];
@@ -48,6 +48,5 @@ export default chat.reducer;
 export function selectUser(user: UserProps): AppThunk {
   return (dispatch: AppDispatch) => {
     dispatch(setSelectedUser(user));
-    dispatch();
   };
 }

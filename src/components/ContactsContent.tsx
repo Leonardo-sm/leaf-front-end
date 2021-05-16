@@ -14,8 +14,7 @@ export function ContactsContent() {
   const dispatch = useDispatch();
 
   function selectUser(user: UserProps) {
-    dispatch(setSelectedUser(user));
-    user.hasNewMessages = false;
+    dispatch(setSelectedUser({ ...user, hasNewMessages: false }));
   }
 
   return (
