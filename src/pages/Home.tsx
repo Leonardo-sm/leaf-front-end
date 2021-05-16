@@ -6,7 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { RootState } from '../stores/store';
 import { asyncSignOut } from '../stores/sessionSlice';
-import { setConnectedUsers as setUsersIntoStore } from '../stores/chatSlice';
+import {
+  setConnectedUsers,
+  setConnectedUsers as setUsersIntoStore,
+} from '../stores/chatSlice';
 import { Chat } from '../components/Chat';
 import socket from '../services/socket';
 import { connected } from 'node:process';
@@ -89,18 +92,39 @@ export function Home() {
   });
 
   socket.on('privateMessage', ({ content, from }: ReceivedMessages) => {
+    let userListClone: UserProps[] = [];
     chat.connectedUsers.forEach((user: UserProps) => {
       if (user.userID === from) {
-        user.messages.push({
-          content,
-          fromSelf: false,
-        });
+        let newUser: UserProps = {
+          userID: user.userID,
+          name: user.name,
+          self: user.self,
+          connected: user.connected,
+          hasNewMessages: user.hasNewMessages,
+          messages: [...user.messages, { content, fromSelf: false }],
+        };
+
+        console.log(user.messages);
 
         if (user !== chat.selectedUser) {
-          user.hasNewMessages = true;
+          newUser.hasNewMessages = true;
         }
+        userListClone.push(newUser);
+        console.log(user.hasNewMessages);
+      } else {
+        let newUser: UserProps = {
+          userID: user.userID,
+          name: user.name,
+          self: user.self,
+          connected: user.connected,
+          hasNewMessages: user.hasNewMessages,
+          messages: user.messages,
+        };
+
+        userListClone.push(newUser);
       }
     });
+    dispatch(setConnectedUsers(userListClone));
   });
 
   return (
