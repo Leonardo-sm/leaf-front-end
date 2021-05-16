@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import socket from '../services/socket';
+import { setSelectedUser } from '../stores/chatSlice';
 import { RootState } from '../stores/store';
 
 import {
@@ -14,6 +15,7 @@ import {
 export function Chat() {
   const [content, setContent] = useState('');
   const chat = useSelector((state: RootState) => state.chat);
+  const dispatch = useDispatch();
 
   function displaySender(index: number) {
     return (
@@ -23,15 +25,26 @@ export function Chat() {
     );
   }
 
-  function onMessage(content: string) {
+  function onMessage(newContent: string) {
     if (chat.selectedUser) {
-      socket.emit('privateMessage', { content, to: chat.selectedUser.userID });
+      socket.emit('privateMessage', {
+        content: newContent,
+        to: chat.selectedUser.userID,
+      });
     }
-
-    chat.selectedUser.messages.push({
-      content,
+    const messageProps = {
+      content: newContent,
       fromSelf: true,
-    });
+    };
+
+    dispatch(setSelectedUser({ ...chat.selectedUser }));
+
+    dispatch(
+      setSelectedUser({
+        ...chat.selectedUser,
+        messages: [...chat.selectedUser.messages, messageProps],
+      })
+    );
   }
 
   return (
