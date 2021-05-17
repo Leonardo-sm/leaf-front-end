@@ -12,7 +12,6 @@ import {
 } from '../stores/chatSlice';
 import { Chat } from '../components/Chat';
 import socket from '../services/socket';
-import { connected } from 'node:process';
 
 type ReceivedMessages = {
   content: string;
@@ -92,7 +91,20 @@ export function Home() {
   });
 
   socket.on('privateMessage', ({ content, from }: ReceivedMessages) => {
-    let userListClone: UserProps[] = [];
+    for (let i = 0; i < chat.connectedUsers.length; i++) {
+      const user = chat.connectedUsers[i];
+      if (user.userID === from) {
+        user.messages.push({
+          content,
+          fromSelf: false,
+        });
+
+        if (user !== chat.selectedUser) {
+          user.hasNewMessages = true;
+        }
+      }
+    }
+    /*let userListClone: UserProps[] = [];
     chat.connectedUsers.forEach((user: UserProps) => {
       if (user.userID === from) {
         let newUser: UserProps = {
@@ -124,7 +136,7 @@ export function Home() {
         userListClone.push(newUser);
       }
     });
-    dispatch(setConnectedUsers(userListClone));
+    dispatch(setConnectedUsers(userListClone));*/
   });
 
   return (
