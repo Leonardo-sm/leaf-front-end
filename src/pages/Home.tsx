@@ -1,17 +1,20 @@
 import { HomeContainer, HomeImages } from '../styles/pages/home';
-import { Sidebar } from '../components/Sidebar';
-import { useValidateLogin } from '../hooks/query/useSession';
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { RootState } from '../stores/store';
-import { asyncSignOut } from '../stores/sessionSlice';
 import {
   setConnectedUsers,
   setConnectedUsers as setUsersIntoStore,
 } from '../stores/chatSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+
 import { Chat } from '../components/Chat';
+import { RootState } from '../stores/store';
+import { Sidebar } from '../components/Sidebar';
+import { asyncSignOut } from '../stores/sessionSlice';
+import { connected } from 'node:process';
 import socket from '../services/socket';
+import update from 'immutability-helper';
+import { useHistory } from 'react-router-dom';
+import { useValidateLogin } from '../hooks/query/useSession';
 
 type ReceivedMessages = {
   content: string;
@@ -34,9 +37,18 @@ export type UserProps = {
 
 export function Home() {
   const session = useSelector((state: RootState) => state.session);
+  // const session = useSelector((state) => state.session);
   const chat = useSelector((state: RootState) => state.chat);
+  // const chat = useSelector((state) => state.chat);
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const [cloneUsers, setcloneUsers] = useState<any[]>([]);
+
+  useEffect(() => {
+    setcloneUsers(chat.connectedUsers);
+    console.log(chat.connectedUsers);
+  }, [chat.connectedUsers]);
 
   useEffect(() => {
     if (!session.isLogged) {
@@ -90,53 +102,114 @@ export function Home() {
     dispatch(setUsersIntoStore([...chat.connectedUsers, newUser]));
   });
 
+  // socket.on('privateMessage', ({ content, from }: ReceivedMessages) => {
+  //   let userListClone: UserProps[] = [];
+  //   chat.connectedUsers.forEach((user: UserProps) => {
+  //     if (user.userID === from) {
+  //       let newUser: UserProps = {
+  //         userID: user.userID,
+  //         name: user.name,
+  //         self: user.self,
+  //         connected: user.connected,
+  //         hasNewMessages: user.hasNewMessages,
+  //         messages: [...user.messages, { content, fromSelf: false }],
+  //       };
+
+  //       console.log(user.messages);
+
+  //       if (user !== chat.selectedUser) {
+  //         newUser.hasNewMessages = true;
+  //       }
+  //       userListClone.push(newUser);
+  //       console.log(user.hasNewMessages);
+  //     } else {
+  //       let newUser: UserProps = {
+  //         userID: user.userID,
+  //         name: user.name,
+  //         self: user.self,
+  //         connected: user.connected,
+  //         hasNewMessages: user.hasNewMessages,
+  //         messages: user.messages,
+  //       };
+
+  //       userListClone.push(newUser);
+  //     }
+  //   });
+  //   dispatch(setConnectedUsers(userListClone));
+  // });
+
   socket.on('privateMessage', ({ content, from }: ReceivedMessages) => {
-    for (let i = 0; i < chat.connectedUsers.length; i++) {
-      const user = chat.connectedUsers[i];
+    console.log('chegou menssagems');
+    console.log(content);
+    let userListClone: UserProps[] = [];
+    chat.connectedUsers.map((user: UserProps, index: number) => {
+      // if (user.userID === from) {
+      //   let newUser: UserProps = {
+      //     userID: user.userID,
+      //     name: user.name,
+      //     self: user.self,
+      //     connected: user.connected,
+      //     hasNewMessages: user.hasNewMessages,
+      //     messages: [...user.messages, { content, fromSelf: false }],
+      //   };
+
+      //   console.log(user.messages);
+
+      //   if (user !== chat.selectedUser) {
+      //     newUser.hasNewMessages = true;
+      //   }
+      //   userListClone.push(newUser);
+      //   console.log(user.hasNewMessages);
+      // } else {
+      //   let newUser: UserProps = {
+      //     userID: user.userID,
+      //     name: user.name,
+      //     self: user.self,
+      //     connected: user.connected,
+      //     hasNewMessages: user.hasNewMessages,
+      //     messages: user.messages,
+      //   };
+
+      //   userListClone.push(newUser);
+      // }
+
       if (user.userID === from) {
-        user.messages.push({
-          content,
-          fromSelf: false,
+        console.log(cloneUsers[index]);
+        // const newMessage = update(chat.connectedUsers[index].messages, {
+        //   $push: [{ content, fromSelf: false }],
+        // });
+
+        const users = chat.connectedUsers.filter((item) =>
+          item.userID !== from ? item : null
+        );
+
+        const newMessage = update(chat.connectedUsers[index], {
+          hasNewMessages: { $set: true },
+          messages: { $push: [{ content, fromSelf: false }] },
         });
 
-        if (user !== chat.selectedUser) {
-          user.hasNewMessages = true;
-        }
-      }
-    }
-    /*let userListClone: UserProps[] = [];
-    chat.connectedUsers.forEach((user: UserProps) => {
-      if (user.userID === from) {
-        let newUser: UserProps = {
-          userID: user.userID,
-          name: user.name,
-          self: user.self,
-          connected: user.connected,
-          hasNewMessages: user.hasNewMessages,
-          messages: [...user.messages, { content, fromSelf: false }],
-        };
+        console.log('teste');
+        console.log(newMessage);
 
-        console.log(user.messages);
+        dispatch(setConnectedUsers([...users, newMessage]));
 
-        if (user !== chat.selectedUser) {
-          newUser.hasNewMessages = true;
-        }
-        userListClone.push(newUser);
-        console.log(user.hasNewMessages);
-      } else {
-        let newUser: UserProps = {
-          userID: user.userID,
-          name: user.name,
-          self: user.self,
-          connected: user.connected,
-          hasNewMessages: user.hasNewMessages,
-          messages: user.messages,
-        };
+        // let users = cloneUsers;
 
-        userListClone.push(newUser);
+        // users[0].hasNewMessages = true;
+
+        // users[index].messages = [
+        //   ...users[index].messages,
+        //   { content, fromSelf: false },
+        // ];
+
+        // const selfUser = chat.connectedUsers.filter((item) =>
+        //   item.userID === from ? item : null
+        // );
+
+        // dispatch(setConnectedUsers([...users, newMessage]));
       }
     });
-    dispatch(setConnectedUsers(userListClone));*/
+    // dispatch(setConnectedUsers(userListClone));
   });
 
   return (
