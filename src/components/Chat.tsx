@@ -6,9 +6,8 @@ import { RootState } from '../stores/store';
 
 import {
   ChatContainer,
-  LeftMessages,
   MessagesContainer,
-  RightMessages,
+  Messages,
   TextareaBox,
 } from '../styles/components/chat';
 
@@ -49,23 +48,17 @@ export function Chat() {
 
   return (
     <ChatContainer>
-      {chat.selectedUser.messages.map((message, index) => {
-        if (displaySender(index)) {
-          return (
-            <MessagesContainer key={index}>
-              {message.fromSelf ? (
-                <RightMessages>
-                  <p>{message.content}</p>
-                </RightMessages>
-              ) : (
-                <LeftMessages>
-                  <p>{message.content}</p>
-                </LeftMessages>
-              )}
-            </MessagesContainer>
-          );
-        } else return <></>;
-      })}
+      <MessagesContainer>
+        {chat.selectedUser.messages.map((message, index) => {
+          if (displaySender(index)) {
+            return (
+              <Messages self={message.fromSelf} key={index}>
+                {message.content}
+              </Messages>
+            );
+          }
+        })}
+      </MessagesContainer>
 
       <TextareaBox
         placeholder="Digite Aqui..."

@@ -15,40 +15,13 @@ export const ChatContainer = styled.div`
   background-color: ${fromTheme('chatBackground')};
 `;
 
-export const RightMessages = styled.div`
-  display: block;
-
-  max-width: 40%;
-
-  padding: 10px;
-  margin-bottom: 10px;
-
-  border-radius: 10px;
-
-  background-color: ${fromTheme('lightPurple')};
-`;
-
-export const LeftMessages = styled.div`
-  display: block;
-
-  max-width: 40%;
-
-  padding: 10px;
-
-  margin-bottom: 10px;
-
-  border-radius: 10px;
-
-  background-color: ${fromTheme('surface')};
-`;
-
 export const MessagesContainer = styled.div`
   flex-direction: column;
-  align-items: flex-start;
 
   display: flex;
 
-  height: 100%;
+  height: 75%;
+  width: 70%;
 
   padding: 30px 70px;
 
@@ -59,6 +32,22 @@ export const MessagesContainer = styled.div`
   font-size: 18;
 
   overflow-y: scroll;
+`;
+
+export const Messages = styled.div<{ self: boolean }>`
+  display: block;
+
+  align-self: ${(props) => (props.self ? 'flex-end' : 'flex-start')};
+
+  max-width: 40%;
+
+  padding: 10px;
+  margin-bottom: 10px;
+
+  border-radius: 10px;
+
+  background-color: ${(props) =>
+    props.self ? fromTheme('lightPurple') : fromTheme('surface')};
 `;
 
 export const TextareaBox = styled(TextareaAutosize)`
