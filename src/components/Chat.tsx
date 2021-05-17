@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import socket from '../services/socket';
-import { setSelectedUser } from '../stores/chatSlice';
+import { setConnectedUsers, setSelectedUser } from '../stores/chatSlice';
 import { RootState } from '../stores/store';
 
 import {
@@ -16,47 +16,42 @@ export function Chat() {
   const chat = useSelector((state: RootState) => state.chat);
   const dispatch = useDispatch();
 
-  function displaySender(index: number) {
-    return (
-      index === 0 ||
-      chat.selectedUser.messages[index - 1].fromSelf !==
-        chat.selectedUser.messages[index].fromSelf
-    );
-  }
-
-  function onMessage(newContent: string) {
+  function onMessage(content: string) {
     if (chat.selectedUser) {
       socket.emit('privateMessage', {
-        content: newContent,
+        content,
         to: chat.selectedUser.userID,
       });
+
+      chat.connectedUsers.map((user, index) => {
+        if (chat.selectedUser.userID === user.userID) {
+          const users = chat.connectedUsers.filter((item) =>
+            item.userID !== chat.selectedUser.userID ? item : null
+          );
+
+          let user = chat.connectedUsers[index];
+          const messagesUpdated = user.messages.concat({
+            content,
+            fromSelf: true,
+          });
+
+          user = { ...user, messages: messagesUpdated };
+          dispatch(setSelectedUser(user));
+          dispatch(setConnectedUsers([...users, user]));
+        }
+      });
     }
-    const messageProps = {
-      content: newContent,
-      fromSelf: true,
-    };
-
-    dispatch(setSelectedUser({ ...chat.selectedUser }));
-
-    dispatch(
-      setSelectedUser({
-        ...chat.selectedUser,
-        messages: [...chat.selectedUser.messages, messageProps],
-      })
-    );
   }
 
   return (
     <ChatContainer>
       <MessagesContainer>
         {chat.selectedUser.messages.map((message, index) => {
-          if (displaySender(index)) {
-            return (
-              <Messages self={message.fromSelf} key={index}>
-                {message.content}
-              </Messages>
-            );
-          }
+          return (
+            <Messages key={index} self={message.fromSelf}>
+              {message.content}
+            </Messages>
+          );
         })}
       </MessagesContainer>
 
