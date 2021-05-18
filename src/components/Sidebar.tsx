@@ -1,17 +1,21 @@
-import { useDispatch } from 'react-redux';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   SidebarButton,
   SidebarContainer,
   SidebarWrapper,
   SignOutButton,
 } from '../styles/components/sidebar';
-import { setIsLogged } from '../stores/sessionSlice';
-import { useState } from 'react';
-import { Menu } from './Menu';
 
-export function Sidebar() {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Menu } from './Menu';
+import { setIsLogged } from '../stores/sessionSlice';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+
+interface SidebarProps {
+  setSelectedMenu: (value: boolean) => void;
+}
+
+export function Sidebar({ setSelectedMenu }: SidebarProps) {
   const [isChatMenuActive, setIsChatMenuActive] = useState(false);
   const [isChartMenuActive, setIsChartMenuActive] = useState(false);
   const dispatch = useDispatch();
@@ -20,7 +24,10 @@ export function Sidebar() {
     <SidebarWrapper>
       <SidebarContainer>
         <div>
-          <SidebarButton active={isChatMenuActive}>
+          <SidebarButton
+            active={isChatMenuActive}
+            onClick={() => setSelectedMenu(true)}
+          >
             <FontAwesomeIcon
               icon={['far', 'comment-alt']}
               size="2x"
@@ -30,7 +37,10 @@ export function Sidebar() {
             />
           </SidebarButton>
 
-          <SidebarButton active={isChartMenuActive}>
+          <SidebarButton
+            active={isChartMenuActive}
+            onClick={() => setSelectedMenu(false)}
+          >
             <FontAwesomeIcon
               icon={['fas', 'chart-bar']}
               size="2x"

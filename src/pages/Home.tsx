@@ -4,14 +4,16 @@ import {
   setConnectedUsers as setUsersIntoStore,
 } from '../stores/chatSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 import { Chat } from '../components/Chat';
+import Graphics from './Graphics';
 import { RootState } from '../stores/store';
 import { Sidebar } from '../components/Sidebar';
 import { asyncSignOut } from '../stores/sessionSlice';
+import { setIsChatActive } from '../stores/chatSlice';
 import socket from '../services/socket';
 import update from 'immutability-helper';
-import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useValidateLogin } from '../hooks/query/useSession';
 
@@ -39,6 +41,7 @@ export function Home() {
   const chat = useSelector((state: RootState) => state.chat);
   const history = useHistory();
   const dispatch = useDispatch();
+  const [selectedMenu, setSelectedMenu] = useState(true);
 
   useEffect(() => {
     if (!session.isLogged) {
@@ -107,19 +110,29 @@ export function Home() {
     });
   });
 
-  return (
-    <HomeContainer>
-      <Sidebar />
+  if (selectedMenu) {
+    return (
+      <HomeContainer>
+        <Sidebar setSelectedMenu={(value: boolean) => setSelectedMenu(value)} />
 
-      {chat.isChatActive ? (
-        <Chat />
-      ) : (
-        <HomeImages>
-          <img src="images/LeafHome.svg" alt="Leaf home logo" />
+        {chat.isChatActive ? (
+          <Chat />
+        ) : (
+          <HomeImages>
+            <img src="images/LeafHome.svg" alt="Leaf home logo" />
 
-          <img src="images/Leaf.svg" alt="Leaf" />
-        </HomeImages>
-      )}
-    </HomeContainer>
-  );
+            <img src="images/Leaf.svg" alt="Leaf" />
+          </HomeImages>
+        )}
+      </HomeContainer>
+    );
+  } else {
+    dispatch(setIsChatActive(false));
+    return (
+      <HomeContainer>
+        <Sidebar setSelectedMenu={(value: boolean) => setSelectedMenu(value)} />
+        <Graphics />
+      </HomeContainer>
+    );
+  }
 }
