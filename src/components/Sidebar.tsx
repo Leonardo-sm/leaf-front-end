@@ -1,20 +1,23 @@
-import { useDispatch } from 'react-redux';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SidebarContainer } from '../styles/components/sidebar';
 import { setIsLogged } from '../stores/sessionSlice';
+import { useDispatch } from 'react-redux';
 
-export function Sidebar() {
+interface SidebarProps {
+  setSelectedMenu: (value: boolean) => void;
+}
+
+export function Sidebar({ setSelectedMenu }: SidebarProps) {
   const dispatch = useDispatch();
 
   return (
     <SidebarContainer>
       <div>
-        <button>
+        <button onClick={() => setSelectedMenu(true)}>
           <FontAwesomeIcon icon={['far', 'comment-alt']} size="2x" />
         </button>
 
-        <button>
+        <button onClick={() => setSelectedMenu(false)}>
           <FontAwesomeIcon icon={['fas', 'chart-bar']} size="2x" />
         </button>
       </div>
