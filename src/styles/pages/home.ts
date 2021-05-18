@@ -5,6 +5,7 @@ export const HomeContainer = styled.div`
   flex-direction: row;
 
   display: flex;
+  background-color: ${fromTheme('background')};
 `;
 
 export const HomeImages = styled.div`
@@ -15,6 +16,4 @@ export const HomeImages = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
-
-  background-color: ${fromTheme('background')};
 `;

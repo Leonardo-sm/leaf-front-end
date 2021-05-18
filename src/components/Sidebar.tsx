@@ -1,30 +1,62 @@
+import {
+  SidebarButton,
+  SidebarContainer,
+  SidebarWrapper,
+  SignOutButton,
+} from '../styles/components/sidebar';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SidebarContainer } from '../styles/components/sidebar';
+import { Menu } from './Menu';
 import { setIsLogged } from '../stores/sessionSlice';
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 
 interface SidebarProps {
   setSelectedMenu: (value: boolean) => void;
 }
 
 export function Sidebar({ setSelectedMenu }: SidebarProps) {
+  const [isChatMenuActive, setIsChatMenuActive] = useState(false);
+  const [isChartMenuActive, setIsChartMenuActive] = useState(false);
   const dispatch = useDispatch();
 
   return (
-    <SidebarContainer>
-      <div>
-        <button onClick={() => setSelectedMenu(true)}>
-          <FontAwesomeIcon icon={['far', 'comment-alt']} size="2x" />
-        </button>
+    <SidebarWrapper>
+      <SidebarContainer>
+        <div>
+          <SidebarButton
+            active={isChatMenuActive}
+            onClick={() => setSelectedMenu(true)}
+          >
+            <FontAwesomeIcon
+              icon={['far', 'comment-alt']}
+              size="2x"
+              onClick={() => {
+                setIsChatMenuActive(!isChatMenuActive);
+              }}
+            />
+          </SidebarButton>
 
-        <button onClick={() => setSelectedMenu(false)}>
-          <FontAwesomeIcon icon={['fas', 'chart-bar']} size="2x" />
-        </button>
-      </div>
+          <SidebarButton
+            active={isChartMenuActive}
+            onClick={() => setSelectedMenu(false)}
+          >
+            <FontAwesomeIcon
+              icon={['fas', 'chart-bar']}
+              size="2x"
+              onClick={() => {
+                setIsChartMenuActive(!isChartMenuActive);
+              }}
+            />
+          </SidebarButton>
+        </div>
 
-      <button onClick={() => dispatch(setIsLogged(false))}>
-        <FontAwesomeIcon icon={['fas', 'sign-out-alt']} size="2x" />
-      </button>
-    </SidebarContainer>
+        <SignOutButton onClick={() => dispatch(setIsLogged(false))}>
+          <FontAwesomeIcon icon={['fas', 'sign-out-alt']} size="2x" />
+        </SignOutButton>
+      </SidebarContainer>
+
+      {isChatMenuActive && <Menu />}
+    </SidebarWrapper>
   );
 }

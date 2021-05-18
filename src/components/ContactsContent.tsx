@@ -4,33 +4,42 @@ import {
 } from '../styles/components/content';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../stores/store';
+import { UserProps } from '../pages/Home';
+import { setIsChatActive, setSelectedUser } from '../stores/chatSlice';
 
 export function ContactsContent() {
+  const chat = useSelector((state: RootState) => state.chat);
+  const dispatch = useDispatch();
+
+  function selectUser(user: UserProps) {
+    dispatch(setSelectedUser({ ...user, hasNewMessages: false }));
+  }
+
   return (
     <ContentContainer>
-      <ContactContainer>
-        <h2>Renan Nunes</h2>
+      {chat.connectedUsers.map((user: UserProps) => (
+        <ContactContainer
+          onClick={() => {
+            dispatch(setIsChatActive(!chat.isChatActive));
+            selectUser(user);
+          }}
+          key={user.userID}
+        >
+          <h2>{user.name}</h2>
 
-        <span>
-          <FontAwesomeIcon icon={['fas', 'circle']} />
-        </span>
-      </ContactContainer>
-
-      <ContactContainer>
-        <h2>Leonardo Michelluti</h2>
-
-        <span>
-          <FontAwesomeIcon icon={['fas', 'circle']} />
-        </span>
-      </ContactContainer>
-
-      <ContactContainer>
-        <h2>Nikita Klementiev</h2>
-
-        <div>
-          <FontAwesomeIcon icon={['far', 'circle']} />
-        </div>
-      </ContactContainer>
+          {user.connected ? (
+            <span>
+              <FontAwesomeIcon icon={['fas', 'circle']} />
+            </span>
+          ) : (
+            <div>
+              <FontAwesomeIcon icon={['far', 'circle']} />
+            </div>
+          )}
+        </ContactContainer>
+      ))}
     </ContentContainer>
   );
 }

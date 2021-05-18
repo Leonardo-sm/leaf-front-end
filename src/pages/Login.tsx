@@ -15,6 +15,7 @@ import SignupForm from '../components/SignupForm';
 import { api } from '../services/api';
 import { asyncLogin } from '../stores/sessionSlice';
 import { useHistory } from 'react-router-dom';
+import socket from '../services/socket';
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
