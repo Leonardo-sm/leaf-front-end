@@ -1,8 +1,7 @@
 import { AppDispatch, AppThunk } from './store';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { MessagesProps, UserProps } from '../pages/Home';
-
+import { UserProps } from '../pages/Home';
 interface ChatProps {
   connectedUsers: UserProps[];
   isChatActive: boolean;
