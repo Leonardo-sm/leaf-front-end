@@ -50,6 +50,13 @@ export const Messages = styled.div<{ self: boolean }>`
     props.self ? fromTheme('lightPurple') : fromTheme('surface')};
 `;
 
+export const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+`;
+
 export const TextareaBox = styled(TextareaAutosize)`
   display: block;
 
@@ -75,5 +82,31 @@ export const TextareaBox = styled(TextareaAutosize)`
 
   &::placeholder {
     color: ${fromTheme('placeholder')};
+  }
+`;
+
+export const SendButton = styled.button`
+  width: 60px;
+  height: 30px;
+
+  margin-bottom: 60px;
+
+  margin-left: 10px;
+
+  background-color: ${fromTheme('primary')};
+  color: ${fromTheme('surface')};
+
+  outline: none;
+  border: none;
+
+  border-radius: 10px;
+
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 18;
+
+  &:hover {
+    filter: brightness(92%);
+    cursor: pointer;
   }
 `;
