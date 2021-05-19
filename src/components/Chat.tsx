@@ -9,6 +9,8 @@ import {
   MessagesContainer,
   Messages,
   TextareaBox,
+  SendButton,
+  InputContainer,
 } from '../styles/components/chat';
 
 export function Chat() {
@@ -23,7 +25,7 @@ export function Chat() {
         to: chat.selectedUser.userID,
       });
 
-      chat.connectedUsers.map((user, index) => {
+      chat.connectedUsers.forEach((user, index) => {
         if (chat.selectedUser.userID === user.userID) {
           const users = chat.connectedUsers.filter((item) =>
             item.userID !== chat.selectedUser.userID ? item : null
@@ -31,6 +33,8 @@ export function Chat() {
 
           let user = chat.connectedUsers[index];
           const messagesUpdated = user.messages.concat({
+            sender: socket.id,
+            receiver: chat.selectedUser.userID,
             content,
             fromSelf: true,
           });
@@ -55,26 +59,29 @@ export function Chat() {
         })}
       </MessagesContainer>
 
-      <TextareaBox
-        placeholder="Digite Aqui..."
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        onSubmit={(e) => {
-          e.preventDefault();
-          onMessage(content);
-          setContent('');
-        }}
-        maxRows={6}
-      />
-      <button
-        type="button"
-        onClick={() => {
-          onMessage(content);
-          setContent('');
-        }}
-      >
-        Enviar
-      </button>
+      <InputContainer>
+        <TextareaBox
+          placeholder="Digite Aqui..."
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          onSubmit={(e) => {
+            e.preventDefault();
+            onMessage(content);
+            setContent('');
+          }}
+          maxRows={6}
+        />
+        <SendButton
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            onMessage(content);
+            setContent('');
+          }}
+        >
+          Enviar
+        </SendButton>
+      </InputContainer>
     </ChatContainer>
   );
 }
