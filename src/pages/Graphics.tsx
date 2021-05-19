@@ -26,23 +26,7 @@ export interface GraphicScreenProps {
   data: GraphicProps[];
 }
 
-const defaults: GraphicScreenProps = {
-  title: '',
-  description: '',
-  data: [
-    {
-      graphicId: 0,
-      id: 0,
-      name: '',
-      uv: 0,
-      pv: 0,
-      amt: 0,
-    },
-  ],
-};
-
 function Graphics() {
-  const [graphics, setGraphic] = useState<GraphicScreenProps[]>([]);
   const [graphicSelected, setGraphicSelected] = useState<any>([]);
 
   const result = useQuery('graphics', () => api.get('/graphics')).data?.data;

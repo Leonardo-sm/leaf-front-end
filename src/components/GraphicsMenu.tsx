@@ -4,12 +4,6 @@ import {
   MenuContainer,
 } from '../styles/components/graphicsMenu';
 
-import { GraphicScreenProps } from '../pages/Graphics';
-
-interface GraphicsMenuProps {
-  graphics: GraphicScreenProps;
-}
-
 function GraphicsMenu({ graphics, setGraphicSelected }: any) {
   return (
     <MenuContainer>
