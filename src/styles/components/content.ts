@@ -19,9 +19,9 @@ export const ContentContainer = styled.div`
   }
 `;
 
-export const MessageContainer = styled.div`
+export const MessageContainer = styled.div<{ self: boolean }>`
   padding: 22px 18px 13px 23px;
-
+  display: ${(props) => (props.self ? 'none' : 'block')};
   transition: 0.2s;
 
   h2 {
@@ -59,9 +59,9 @@ export const MessageContainer = styled.div`
   }
 `;
 
-export const ContactContainer = styled.div`
+export const ContactContainer = styled.div<{ self: boolean }>`
   flex-direction: row;
-  display: flex;
+  display: ${(props) => (props.self ? 'none' : 'flex')};
   justify-content: space-between;
   padding: 35px 37px 35px 28px;
 
