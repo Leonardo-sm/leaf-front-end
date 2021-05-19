@@ -20,9 +20,12 @@ import { useValidateLogin } from '../hooks/query/useSession';
 type ReceivedMessages = {
   content: string;
   from: string;
+  to: string;
 };
 
 export type MessagesProps = {
+  sender: string;
+  receiver: string;
   content: string;
   fromSelf: boolean;
 };
@@ -94,8 +97,8 @@ export function Home() {
     };
     dispatch(setUsersIntoStore([...chat.connectedUsers, newUser]));
   });
-  socket.on('privateMessage', ({ content, from }: ReceivedMessages) => {
-    chat.connectedUsers.map((user: UserProps, index: number) => {
+  socket.on('privateMessage', ({ content, from, to }: ReceivedMessages) => {
+    chat.connectedUsers.forEach((user: UserProps, index: number) => {
       if (user.userID === from) {
         const users = chat.connectedUsers.filter((item) =>
           item.userID !== from ? item : null
@@ -103,7 +106,9 @@ export function Home() {
 
         const newMessage = update(chat.connectedUsers[index], {
           hasNewMessages: { $set: true },
-          messages: { $push: [{ content, fromSelf: false }] },
+          messages: {
+            $push: [{ sender: from, receiver: to, content, fromSelf: false }],
+          },
         });
         dispatch(setConnectedUsers([...users, newMessage]));
       }
