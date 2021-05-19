@@ -97,6 +97,14 @@ export function Home() {
     };
     dispatch(setUsersIntoStore([...chat.connectedUsers, newUser]));
   });
+
+  socket.on('userDisconnected', (id: string) => {
+    const newList = chat.connectedUsers.filter((item) =>
+      item.userID === id ? item : null
+    );
+    dispatch(setConnectedUsers(newList));
+  });
+
   socket.on('privateMessage', ({ content, from, to }: ReceivedMessages) => {
     chat.connectedUsers.forEach((user: UserProps, index: number) => {
       if (user.userID === from) {
