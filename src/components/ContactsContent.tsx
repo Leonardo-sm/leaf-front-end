@@ -26,6 +26,7 @@ export function ContactsContent() {
             selectUser(user);
           }}
           key={user.userID}
+          self={user.self}
         >
           <h2>{user.name}</h2>
 
